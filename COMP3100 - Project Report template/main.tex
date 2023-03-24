@@ -55,7 +55,8 @@
 \usepackage{pseudocode} % Environment for specifying algorithms in a natural way
 \usepackage{style/avm} % Environment for f-structures, !uses style file!
 \usepackage{booktabs} % Enhances quality of tables
-
+%\usepackage{url}
+\usepackage{hyperref}
 \usepackage{tikz-qtree} % Easy tree drawing tool
 \tikzset{every tree node/.style={align=center,anchor=north},
          level distance=2cm} % Configuration for q-trees
@@ -105,9 +106,13 @@ SID: 46131434, Name: Ravi Inder Singh
 %----------------------------------------------------------------------------------------
 \tableofcontents
 
-\section*{Introduction}
+\section{Introduction}
+\label{sec:section1}
 % \addcontentsline{toc}{section}{Introduction}
-Brief introduction of your stage...~\cite{mesos2011}.
+
+This is stage 1 of the project. The project focus on the working of a scheduler in a distributed systems. Distributed systems are network of various computing components working together as if a single system. This environment is helpful in resource allocation while scheduling set of jobs. It ensures the system availability and fault tolerance due to readily availability of other nodes/computers in case of breakdown~\cite{splunk_2021_what}. \\ 
+This stage looks into the working of server and client using simulator. Main focus is to have a working client scheduler which can allocate jobs efficiently using Largest-Round-Robin (LRR) algorithm.
+Brief introduction of your stage...
 
 In this report, I aim to ...
 
@@ -152,8 +157,8 @@ Criticism/reflection and improvement suggestions
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
 \bibliographystyle{ieeetr}
-\bibliography{comp3100project}
-% \printbibliography
+\bibliography{COMP3100 - Project Report template/citations}
+
 
 %----------------------------------------------------------------------------------------
 

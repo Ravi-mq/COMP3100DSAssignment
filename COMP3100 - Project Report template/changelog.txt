@@ -3,11 +3,7 @@ changes 2023-03-24: Comp3100Assignment 1.0
 + created changelog.txt file to record the making of the report.
 + setting up the file structure.
 + Adding table of contents.
-+ 
-
-
-
-
++ added \usepackage{hyperref} in main file to allow bibliography url citation.
 
 
 
