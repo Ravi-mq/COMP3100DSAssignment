@@ -111,15 +111,22 @@ SID: 46131434, Name: Ravi Inder Singh
 % \addcontentsline{toc}{section}{Introduction}
 
 This is stage 1 of the project. The project focus on the working of a scheduler in a distributed systems. Distributed systems are network of various computing components working together as if a single system. This environment is helpful in resource allocation while scheduling set of jobs. It ensures the system availability and fault tolerance due to readily availability of other nodes/computers in case of breakdown~\cite{splunk_2021_what}. \\ 
-This stage looks into the working of server and client using simulator. Main focus is to have a working client scheduler which can allocate jobs efficiently using Largest-Round-Robin (LRR) algorithm.
-Brief introduction of your stage...
+\\
+This stage looks into the working of server and client using client side simulator. Server gives the list of jobs and client has to do the task of job scheduler.It is achieved using simple yet effective method by using Largest-Round-Robin (LRR) algorithm. In this algorithm, first server with the highest number of cores is chosen and all the jobs are scheduled on the servers of that type ~\cite{arshad_2023_what}. 
+\\
 
-In this report, I aim to ...
+The rest of this report is organised into 5 sections. Section 2 gives high level of understanding on the working of the project and technical aspects of it. Section 3 talks about the computing constraints of the project and design philosophy. Section 4 is all about the implementation, technologies and development libraries used. Finally we have list of references and link to \textbf{GitHub} repository. 
 
-The rest of this report is organised as follows. Section~\ref{sec:section2} gives an overview of ...
-
-\section{Section 2}
+\section{System Overview}
 \label{sec:section2}
+
+\subsection{}\begin{figure}
+    \centering
+    \includegraphics{Pictures/diagram2.jpeg}
+    \caption{Workflow}
+    \label{fig:my_label}
+\end{figure}
+
 
 \section{Section 3}
 \label{sec:section3}
@@ -151,13 +158,14 @@ Yet another sub-section goes here.
 Criticism/reflection and improvement suggestions
 
 
-\section{Section 4}
+\section{References}
 
+Link to the \textbf{GitHub} project is \url{https://github.com/Ravi-mq/COMP3100DSAssignment.git}
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
 \bibliographystyle{ieeetr}
-\bibliography{COMP3100 - Project Report template/citations}
+\bibliography{citations}
 
 
 %----------------------------------------------------------------------------------------
