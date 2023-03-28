@@ -18,7 +18,8 @@ public class MyJavaClient {
             DataOutputStream dataOut=new DataOutputStream(socket.getOutputStream()); 
             BufferedReader dataIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String serverReply, clientMsg;
+            String serverReply = "";
+            String clientMsg = "";
 
             /* Initiating 3 way handshake */
             //1
@@ -42,14 +43,17 @@ public class MyJavaClient {
             dataOut.flush();
             serverReply = dataIn.readLine();
             System.out.println("Server says "+serverReply);
-
+            /*
             if(!serverReply.equals("OK")){ //  checking if the 3-way handshake was successful
-                throw UnknownHostException("Unsuccessful 3 way handshake");
-            }
-
+                System.exit(-1);
+            }*/
+            
             boolean executed = false; // for checking largest server just once.
             int nRecs = 0; //number of servers
-            
+            String LServerName; // server with highest number of cores.
+            int maxCores = 0; // maximum number of cores.
+            int numLServer = 0; // number of servers of highest core type
+
             while(!serverReply.equals("NONE")){ // if server got one or more than one job. 
             
             //  sending REDY to receive jobs
@@ -60,22 +64,67 @@ public class MyJavaClient {
             System.out.println("Server says "+serverReply);
 
             // separating job description into different variables.
-            String newJob = "";
-            
+            String newJob = "HI team";
+            System.out.println(newJob);
             
             // finding largest server and its type
+            if(!executed){
             
-
+            String temp = "";
             clientMsg = "GETS All\n";
             dataOut.write(clientMsg.getBytes());
             dataOut.flush();
-            serverReply = dataIn.readLine();
-            System.out.println("Server says "+serverReply);
+            temp = dataIn.readLine();
+            System.out.println("Server says "+temp);
 
             //-----------Getting total number of server--------------
-            
+            try {
+                String arrOfStr[] = temp.split(" ",-1);
 
+                for (String a : arrOfStr) {
+                    System.out.println(a);
+                }
+                    nRecs = Integer.parseInt(arrOfStr[1]); // Getting nRecs from "DATA nRecs recSize"
+
+                    clientMsg = "OK\n";
+                    dataOut.write(clientMsg.getBytes());
+                    dataOut.flush();
+                    //temp = dataIn.readLine();
+                    //System.out.println("Server says "+temp);
+
+                    String recordsArr[] = new String[nRecs]; // creating string array to hold description of servers
+
+                for(int i = 0; i < nRecs; i++){
+                    recordsArr[i] = dataIn.readLine();
+                    System.out.println("Server says " +recordsArr[i]);
+                }
+                    arrOfStr = recordsArr[0].split(" ",-1);
+                    maxCores = Integer.parseInt(arrOfStr[4]);
+                    int pos = 0;
+                for(int i = 0; i < nRecs; i++){
+                    arrOfStr = recordsArr[i].split(" ",-1);
+                    if(maxCores < Integer.parseInt(arrOfStr[4])){
+                        maxCores =  Integer.parseInt(arrOfStr[4]);
+                        pos = i;
+                    }
+                }
+                    System.out.println("ArrofStrings "+recordsArr[pos]);
+                    arrOfStr = recordsArr[pos].split(" ",-1);
+
+                    LServerName = arrOfStr[0];
+                    
+
+
+            } catch (Exception e) {
+                System.out.println("Invalid array:"+e.getMessage());
             }
+
+            executed = true;
+
+                }
+            }
+
+            dataOut.close();
 
         } catch (UnknownHostException e){
             System.out.println("Socket:"+e.getMessage());
