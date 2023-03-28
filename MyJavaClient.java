@@ -43,19 +43,23 @@ public class MyJavaClient {
             dataOut.flush();
             serverReply = dataIn.readLine();
             System.out.println("Server says "+serverReply);
-            /*
-            if(!serverReply.equals("OK")){ //  checking if the 3-way handshake was successful
-                System.exit(-1);
-            }*/
-            
+// ----------------------------------End of three way handshake----------------------------------------------
+
+//================================Global variables===========================================================
+
             boolean executed = false; // for checking largest server just once.
             int nRecs = 0; //number of servers
             String LServerName = ""; // server with highest number of cores.
             int maxCores = 0; // maximum number of cores.
             int numLServer = 0; // number of servers of highest core type
-            int jobID = 0;
-            int count = 0;
-            while(!serverReply.equals("NONE")){ // if server got one or more than one job. 
+            int jobID = 0; // will be used for SCHD function
+            int count = 0; // keeps track of various counts, states at different times.
+            String recordsArr[]; // recording server's reply into string array 
+
+
+/*=--------------------=-=-===----------------Looping through-==========================================------------- */
+
+        while(!serverReply.equals("NONE")){ // if server got one or more than one job. 
             
             //  sending REDY to receive jobs
             clientMsg = "REDY\n";
@@ -64,12 +68,8 @@ public class MyJavaClient {
             serverReply = dataIn.readLine();
             System.out.println("Server says "+serverReply);
 
-            // separating job description into different variables.
-            String newJob = "HI team";
-            System.out.println(newJob);
-            
-            // finding largest server and its type
-            if(!executed){
+//------------------------------- finding largest server and its type-----------------------------------
+            if(!executed) {
             
             String temp = "";
             clientMsg = "GETS All\n";
@@ -90,10 +90,8 @@ public class MyJavaClient {
                     clientMsg = "OK\n";
                     dataOut.write(clientMsg.getBytes());
                     dataOut.flush();
-                    //temp = dataIn.readLine();
-                    //System.out.println("Server says "+temp);
 
-                    String recordsArr[] = new String[nRecs]; // creating string array to hold description of servers
+                     recordsArr = new String[nRecs]; // creating string array to hold description of servers
 
                 for(int i = 0; i < nRecs; i++){
                     recordsArr[i] = dataIn.readLine();
@@ -134,28 +132,39 @@ public class MyJavaClient {
             } catch (Exception e) {
                 System.out.println("Invalid array:"+e.getMessage());
             }
+                
+        }
+//---------------------------------------ending the Gets all function---------------------------------------------------------
 
+
+//-------------------------------------Scheduling of the jobs-----------------------------------------------------------------
+            
+                recordsArr = serverReply.split(" ",-1);
+                //if(recordsArr[0].equals("JOBN") || recordsArr[0].equals("JCPL")){
+                if(recordsArr[0].equals("JOBN")){
+                    jobID = Integer.parseInt(recordsArr[2]);
+                    clientMsg = "SCHD" + " " + jobID +" " + LServerName + " " + count + "\n";
+                    System.out.println("Job is schd as = "+clientMsg);
+                    dataOut.write(clientMsg.getBytes());
+                    dataOut.flush();
+                    serverReply = dataIn.readLine();
+                    System.out.println("Server says "+serverReply);
                 }
-
-                if(numLServer == count){
+                if(numLServer-1 == count){
                     count = 0;
                     continue;
                 }
-                
-                clientMsg = "SCHD" + " " + jobID +" " + LServerName + " " + count + "\n";
-                System.out.println("Job is schd as = "+clientMsg);
-                dataOut.write(clientMsg.getBytes());
-                dataOut.flush();
-                serverReply = dataIn.readLine();
-                System.out.println("Server says "+serverReply);
-                
-                
                 count++;         
-                jobID++;
                 executed = true;
-
             }
+/*-------------------------------Terminating the connection-------------------------------------------------*/
+            clientMsg = "QUIT\n";
+            dataOut.write(clientMsg.getBytes());
+            dataOut.flush();
+            serverReply = dataIn.readLine();
+            System.out.println("Server says "+serverReply);
 
+/*--------------------------------------------------------------------------------------------------------- */
             dataOut.close();
 
         } catch (UnknownHostException e){
