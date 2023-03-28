@@ -50,10 +50,11 @@ public class MyJavaClient {
             
             boolean executed = false; // for checking largest server just once.
             int nRecs = 0; //number of servers
-            String LServerName; // server with highest number of cores.
+            String LServerName = ""; // server with highest number of cores.
             int maxCores = 0; // maximum number of cores.
             int numLServer = 0; // number of servers of highest core type
-
+            int jobID = 0;
+            int count = 0;
             while(!serverReply.equals("NONE")){ // if server got one or more than one job. 
             
             //  sending REDY to receive jobs
@@ -100,28 +101,59 @@ public class MyJavaClient {
                 }
                     arrOfStr = recordsArr[0].split(" ",-1);
                     maxCores = Integer.parseInt(arrOfStr[4]);
-                    int pos = 0;
+                     count = 0;
                 for(int i = 0; i < nRecs; i++){
                     arrOfStr = recordsArr[i].split(" ",-1);
                     if(maxCores < Integer.parseInt(arrOfStr[4])){
                         maxCores =  Integer.parseInt(arrOfStr[4]);
-                        pos = i;
+                        count = i;
                     }
                 }
-                    System.out.println("ArrofStrings "+recordsArr[pos]);
-                    arrOfStr = recordsArr[pos].split(" ",-1);
-
-                    LServerName = arrOfStr[0];
+                clientMsg = "OK\n";
+                dataOut.write(clientMsg.getBytes());
+                dataOut.flush();
+                temp = dataIn.readLine();
+                System.out.println("Server says "+temp);
+                
+                System.out.println("ArrofStrings "+recordsArr[count]);
+                arrOfStr = recordsArr[count].split(" ",-1);
                     
-
+                    count = 0;
+                    LServerName = arrOfStr[0];
+                    System.out.println("Lservername "+LServerName);
+                    for(int i = 0; i<nRecs; i++){
+                        if(recordsArr[i].contains(LServerName)){
+                            count++;
+                        }
+                    }
+                numLServer = count;
+                System.out.println("Number of servers in "+LServerName+" is = "+numLServer);
+                count = 0;
+                
 
             } catch (Exception e) {
                 System.out.println("Invalid array:"+e.getMessage());
             }
 
-            executed = true;
-
                 }
+
+                if(numLServer == count){
+                    count = 0;
+                    continue;
+                }
+                
+                clientMsg = "SCHD" + " " + jobID +" " + LServerName + " " + count + "\n";
+                System.out.println("Job is schd as = "+clientMsg);
+                dataOut.write(clientMsg.getBytes());
+                dataOut.flush();
+                serverReply = dataIn.readLine();
+                System.out.println("Server says "+serverReply);
+                
+                
+                count++;         
+                jobID++;
+                executed = true;
+
             }
 
             dataOut.close();
