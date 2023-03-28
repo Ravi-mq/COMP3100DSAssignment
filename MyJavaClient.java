@@ -4,8 +4,8 @@
  * SID: 46131434
  */
 
-import java.io.*;
-import java.net.*;
+import java.io.*; // for using the Input output funtion
+import java.net.*; // for using the socket function
 
 public class MyJavaClient {
 
@@ -47,7 +47,35 @@ public class MyJavaClient {
                 throw UnknownHostException("Unsuccessful 3 way handshake");
             }
 
+            boolean executed = false; // for checking largest server just once.
+            int nRecs = 0; //number of servers
             
+            while(!serverReply.equals("NONE")){ // if server got one or more than one job. 
+            
+            //  sending REDY to receive jobs
+            clientMsg = "REDY\n";
+            dataOut.write(clientMsg.getBytes());
+            dataOut.flush();
+            serverReply = dataIn.readLine();
+            System.out.println("Server says "+serverReply);
+
+            // separating job description into different variables.
+            String newJob = "";
+            
+            
+            // finding largest server and its type
+            
+
+            clientMsg = "GETS All\n";
+            dataOut.write(clientMsg.getBytes());
+            dataOut.flush();
+            serverReply = dataIn.readLine();
+            System.out.println("Server says "+serverReply);
+
+            //-----------Getting total number of server--------------
+            
+
+            }
 
         } catch (UnknownHostException e){
             System.out.println("Socket:"+e.getMessage());
