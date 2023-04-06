@@ -50,7 +50,7 @@
  
              boolean executed = false; // for checking largest server just once.
              int nRecs = 0; //number of servers
-             String LServerName = ""; // server with highest number of cores.
+             String LServerName =""; // server with highest number of cores.
              int maxCores = 0; // maximum number of cores.
              int numLServer = 0; // number of servers of highest core type
              int jobID = 0; // will be used for SCHD function
@@ -92,7 +92,7 @@
                      System.out.println("Server says " +recordsArr[i]);
                  }
                      arrOfStr = recordsArr[0].split(" ",-1);
-                     maxCores = Integer.parseInt(arrOfStr[4]);
+                     maxCores = 0;
                       count = 0;
                  for(int i = 0; i < nRecs; i++){
                      arrOfStr = recordsArr[i].split(" ",-1);
@@ -115,7 +115,8 @@
                //      LServerName = arrOfStr[0];
                      System.out.println("Lservername "+LServerName);
                      for(int i = 0; i<nRecs; i++){
-                         if(recordsArr[i].contains(LServerName)){
+                           arrOfStr = recordsArr[i].split(" ",-1);
+                         if(arrOfStr[0].equals(LServerName)){
                              arrOfStr = recordsArr[i].split(" ",-1);
                              serverIDs.add(Integer.parseInt(arrOfStr[1]));
                          }
