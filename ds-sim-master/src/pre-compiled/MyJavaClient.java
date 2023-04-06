@@ -53,8 +53,7 @@
              String LServerName =""; // server with highest number of cores.
              int maxCores = 0; // maximum number of cores.
              int numLServer = 0; // number of servers of highest core type
-             int jobID = 0; // will be used for SCHD function
-             int count = 0; // keeps track of various counts, states at different times.
+             int jobID = 0; // will be used for SCHD functio
              int LserverID = 0; // largest first server ID
              String recordsArr[]; // recording server's reply into string array 
              ArrayList<Integer> serverIDs = new ArrayList<>();
@@ -93,7 +92,6 @@
                  }
                      arrOfStr = recordsArr[0].split(" ",-1);
                      maxCores = 0;
-                      count = 0;
                  for(int i = 0; i < nRecs; i++){
                      arrOfStr = recordsArr[i].split(" ",-1);
                      if(maxCores < Integer.parseInt(arrOfStr[4])){
@@ -106,18 +104,11 @@
                  dataOut.flush();
                  temp = dataIn.readLine();
                   
-                 System.out.println("Server says "+temp);
-                 
-                 System.out.println("ArrofStrings "+recordsArr[count]);
- 
-                     
-                     count = 0;
-               //      LServerName = arrOfStr[0];
-                     System.out.println("Lservername "+LServerName);
+                System.out.println("Server says "+temp);
+                System.out.println("Lservername "+LServerName);
                      for(int i = 0; i<nRecs; i++){
                            arrOfStr = recordsArr[i].split(" ",-1);
                          if(arrOfStr[0].equals(LServerName)){
-                             arrOfStr = recordsArr[i].split(" ",-1);
                              serverIDs.add(Integer.parseInt(arrOfStr[1]));
                          }
                      }
@@ -125,10 +116,8 @@
                  LserverID = serverIDs.get(0);
                  System.out.println("Number of servers in "+LServerName+" is = "+numLServer);
                  System.out.println("Largest server ID is: "+ LserverID);
-                 System.out.println("And Server ids are : "+ serverIDs);
-             //    count = 0;
+                 System.out.println("And Server ids are : "+ serverIDs);              
                  
- 
                  
              } catch (Exception e) {
                  System.out.println("Invalid array:"+e.getMessage());
